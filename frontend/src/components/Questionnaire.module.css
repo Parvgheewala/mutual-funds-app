@@ -1,0 +1,55 @@
+.container {
+  background-color: #1f2937; /* dark slate */
+  color: #f3f4f6; /* light text */
+  max-width: 450px;
+  margin: 3rem auto;
+  padding: 2.5rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+}
+
+.title {
+  font-size: 1.75rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 1.75rem;
+}
+
+.optionButton {
+  background-color: #2563eb; /* blue-600 */
+  border: none;
+  border-radius: 8px;
+  padding: 0.9rem 1.2rem;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+.optionButton:hover:not(:disabled) {
+  background-color: #1d4ed8; /* blue-700 */
+}
+
+.optionButton:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.result {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #22c55e; /* green-500 */
+  margin-top: 1rem;
+  letter-spacing: 0.04em;
+}

@@ -1,0 +1,86 @@
+.loginContainer {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(120deg, #f8fff8, #a3d9a5);
+}
+
+:global(.dark) .loginContainer {
+  background: linear-gradient(120deg, #0d1b2a, #1b263b);
+}
+
+.card {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border-radius: 12px;
+  padding: 30px;
+  width: 320px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.title {
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: #4caf50;
+  margin-bottom: 20px;
+}
+
+:global(.dark) .subtitle {
+  color: #ffd166;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.loginForm input {
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+}
+
+:global(.dark) .loginForm input {
+  background-color: #0d1b2a;
+  color: white;
+  border: 1px solid #415a77;
+}
+
+.loginForm button {
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.loginForm button:hover {
+  background-color: #3d9140;
+}
+
+:global(.dark) .loginForm button {
+  background-color: #ffd166;
+  color: #1b263b;
+}
+
+.links {
+  margin-top: 15px;
+  font-size: 0.85rem;
+}
+
+.links a {
+  color: #4caf50;
+  text-decoration: none;
+}
+
+:global(.dark) .links a {
+  color: #ffd166;
+}

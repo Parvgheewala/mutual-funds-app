@@ -1,0 +1,23 @@
+:root {
+  --bg-color: #ffffff;
+  --text-color: #222222;
+  --border-color: #cccccc;
+}
+
+body.dark {
+  --bg-color: #1e1e1e;
+  --text-color: #ffffff;
+  --border-color: #555555;
+}
+
+body, html, #root {
+  height: 100vh;
+  width: 100%;
+  margin: 0;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
