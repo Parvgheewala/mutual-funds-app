@@ -2,6 +2,8 @@ from fastapi import APIRouter, Query
 from mftool import Mftool
 import httpx
 from fastapi import HTTPException
+from .nav_history import router as nav_history_router
+
 
 router = APIRouter()
 mf = Mftool()
@@ -67,3 +69,5 @@ async def search_funds(q: str):
         return {"funds": matching_funds[:10]}  # Limit to top 10 matches
     except Exception as e:
         return {"error": str(e)}
+
+router.include_router(nav_history_router)

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./MutualFunds.module.css";
+import CompareFunds from "./CompareFunds.jsx";
+
 
 export default function MutualFunds() {
   const [funds, setFunds] = useState([]);
@@ -69,6 +71,12 @@ export default function MutualFunds() {
         onClick={handleLoadMore}
       >
         Load More Funds
+      </button>
+      <button
+        className={styles.loadMoreButton}
+        onClick={() => navigate("/compare-funds")}
+      >
+        Compare Funds
       </button>
     </div>
   );

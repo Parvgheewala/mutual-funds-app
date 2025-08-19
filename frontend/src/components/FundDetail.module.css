@@ -126,3 +126,29 @@
   height: 400px;
   width: 100%;
 }
+.historyTableWrapper {
+  max-height: 300px; /* adjust height as needed */
+  overflow-y: auto;
+  border: 1px solid #ddd; /* optional: border around scroll area */
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.historyTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.historyTable th,
+.historyTable td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.historyTable th {
+  background-color: #f5f5f5;
+  position: sticky;
+  top: 0; /* keep header visible while scrolling */
+  z-index: 1;
+}
