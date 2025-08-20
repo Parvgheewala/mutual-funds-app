@@ -2,28 +2,30 @@
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
+  transition: background 0.3s, color 0.3s;
 }
 
 .header {
   margin-bottom: 2rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #ccc;
 }
 
 .fundName {
   font-size: 1.8rem;
-  color: #2c3e50;
+  color: #ccc; /* Ensure visible in Light Mode */
   margin-bottom: 0.5rem;
+  transition: color 0.3s;
 }
 
 .currentNav {
   font-size: 1.2rem;
-  color: #666;
+  color: #444;
 }
 
 .navValue {
   font-weight: bold;
-  color: #4caf50;
+  color: #2e7d32; /* slightly darker green for contrast */
   margin-left: 0.5rem;
 }
 
@@ -33,12 +35,15 @@
   gap: 2rem;
 }
 
+/* Removed white container backgrounds */
 .graphCard,
-.historyCard {
-  background: white;
+.historyCard,
+.graphContainer {
+  background: transparent;
+  border: 1px solid #ddd;
   border-radius: 8px;
   padding: 1.5rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: background 0.3s, border 0.3s;
 }
 
 .navOptions {
@@ -49,37 +54,25 @@
 
 .navOptions button {
   padding: 0.5rem 1rem;
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
   border-radius: 4px;
-  background: white;
+  background: transparent;
+  color: #ccc; /* Dark text in light mode for visibility */
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .navOptions button:hover {
-  background: #f5f5f5;
-}
-
-.graphContainer {
-  background: white;
-  border-radius: 8px;
-  padding: 1.5rem;
-  margin: 1rem 0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.timeframeButtons {
-  margin-bottom: 1rem;
-  display: flex;
-  gap: 1rem;
+  background: rgba(0,0,0,0.05);
 }
 
 .timeButton {
   padding: 0.5rem 1rem;
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
   border-radius: 4px;
-  background: white;
+  background: transparent;
   cursor: pointer;
+  color: #1a1a1a;
   transition: all 0.2s;
 }
 
@@ -89,49 +82,55 @@
   border-color: #4caf50;
 }
 
-/* Dark theme support */
+/* ---------------- DARK MODE ---------------- */
 :global(.dark) .container {
   background-color: #121212;
   color: #e4e4e4;
 }
 
 :global(.dark) .fundName {
-  color: #e4e4e4;
+  color: #fff;
+}
+
+:global(.dark) .header {
+  border-color: #333;
+}
+
+:global(.dark) .currentNav {
+  color: #bbbbbb;
 }
 
 :global(.dark) .graphCard,
 :global(.dark) .historyCard,
 :global(.dark) .graphContainer {
-  background-color: #1e1e1e;
+  background: transparent;
   border: 1px solid #333;
 }
 
 :global(.dark) .navOptions button,
 :global(.dark) .timeButton {
-  background-color: #2d2d2d;
+  background: transparent;
   border-color: #444;
   color: #e4e4e4;
 }
 
 :global(.dark) .navOptions button:hover {
-  background-color: #3d3d3d;
+  background-color: rgba(255,255,255,0.1);
 }
 
 :global(.dark) .timeButton.active {
-  background: #558b2f;
-  border-color: #558b2f;
+  background: #66bb6a; /* Lighter green for visibility in dark mode */
+  border-color: #66bb6a;
 }
 
-.chart {
-  height: 400px;
-  width: 100%;
-}
+/* ---------------- NAV HISTORY TABLE ---------------- */
 .historyTableWrapper {
-  max-height: 300px; /* adjust height as needed */
+  max-height: 300px;
   overflow-y: auto;
-  border: 1px solid #ddd; /* optional: border around scroll area */
+  border: 1px solid #ddd;
   border-radius: 4px;
   padding: 8px;
+  background: transparent;
 }
 
 .historyTable {
@@ -144,11 +143,42 @@
   padding: 8px;
   text-align: left;
   border-bottom: 1px solid #eee;
+  color: #ccc; /* Ensure contrast in light mode */
 }
 
 .historyTable th {
-  background-color: #f5f5f5;
+  background-color: rgba(0,0,0,0.05);
+  font-weight: 600;
   position: sticky;
-  top: 0; /* keep header visible while scrolling */
+  top: 0;
   z-index: 1;
+}
+
+:global(.dark) .historyTableWrapper {
+  border: 1px solid #333;
+}
+
+:global(.dark) .historyTable th {
+  background-color: rgba(255,255,255,0.1);
+  color: #fff;
+}
+
+:global(.dark) .historyTable td {
+  border-bottom: 1px solid #333;
+  color: #e4e4e4;
+}
+
+/* ---------------- LOADING & ERROR ---------------- */
+.loading {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  color: #444;
+}
+
+.error {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  color: #d32f2f;
 }

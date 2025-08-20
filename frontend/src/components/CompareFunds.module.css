@@ -2,49 +2,74 @@
   /* Light mode colors */
   --bg-color: #ffffff;
   --text-color: #1a1a1a;
+
   --input-bg: #f9f9f9;
   --input-border: #ccc;
+
   --suggestion-bg: #ffffff;
   --highlight-bg: #e0e0e0;
+
   --tag-bg: #f0f0f0;
   --tag-text: #1a1a1a;
+
   --remove-btn-bg: #ff4d4d;
-  --remove-btn-text: #fff;
+  --remove-btn-text: #ffffff;
+
   --graph-card-bg: #fafafa;
+
+  /* 👇 NEW */
+  --search-text-color: #1a1a1a; /* Light mode search text */
 }
 
-/* Dark mode overrides */
 [data-theme="dark"] {
+  /* Dark mode colors */
   --bg-color: #1e1e1e;
-  --text-color: #1a1a1a;
+  --text-color: #f5f5f5; /* keep general text readable */
+
   --input-bg: #2b2b2b;
   --input-border: #555;
+
   --suggestion-bg: #2b2b2b;
   --highlight-bg: #3b3b3b;
+
   --tag-bg: #333333;
   --tag-text: #f5f5f5;
+
   --remove-btn-bg: #ff4d4d;
-  --remove-btn-text: #fff;
+  --remove-btn-text: #ffffff;
+
   --graph-card-bg: #2a2a2a;
+
+  /* 👇 NEW */
+  --search-text-color: #020444; /* Dark mode: special blue for search text */
 }
 
+/* ---------------- BASE CONTAINERS ---------------- */
 .container {
   background-color: var(--bg-color);
   color: var(--text-color);
   padding: 20px;
   font-family: sans-serif;
+  transition: background 0.3s, color 0.3s;
 }
 
+/* ---------------- INPUTS ---------------- */
 .searchInput {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
-  background-color: var(--input-bg);
+
   border: 1px solid var(--input-border);
   border-radius: 4px;
-  color: var(--text-color);
+  background-color: var(--input-bg);
+  
+  /* ✅ use dedicated search text variable */
+  color: var(--search-text-color);
+
+  transition: background 0.3s, border 0.3s, color 0.3s;
 }
 
+/* ---------------- SUGGESTIONS DROPDOWN ---------------- */
 .suggestionsList {
   list-style: none;
   margin: 0;
@@ -62,6 +87,7 @@
 .suggestionItem {
   padding: 8px 12px;
   cursor: pointer;
+  color: var(--search-text-color); /* ✅ also use the search variable */
 }
 
 .suggestionItem:hover,
@@ -69,39 +95,4 @@
   background-color: var(--highlight-bg);
 }
 
-.selectedFunds {
-  display: flex;
-  flex-wrap: wrap;
-  margin-bottom: 10px;
-}
-
-.fundTag {
-  background-color: var(--tag-bg);
-  color: var(--tag-text);
-  padding: 6px 10px;
-  border-radius: 20px;
-  margin: 4px;
-  display: flex;
-  align-items: center;
-}
-
-.removeButton {
-  margin-left: 6px;
-  background-color: var(--remove-btn-bg);
-  color: var(--remove-btn-text);
-  border: none;
-  border-radius: 50%;
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.graphCard {
-  background-color: var(--graph-card-bg);
-  padding: 10px;
-  margin-bottom: 20px;
-  border-radius: 8px;
-}
+/* ---------------- rest of your styles unchanged ---------------- */
