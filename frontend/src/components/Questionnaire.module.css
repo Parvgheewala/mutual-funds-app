@@ -1,55 +1,87 @@
-.container {
-  background-color: #1f2937; /* dark slate */
-  color: #f3f4f6; /* light text */
-  max-width: 450px;
-  margin: 3rem auto;
-  padding: 2.5rem 2rem;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+.card {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  text-align: center;
+  position: relative;
 }
 
 .title {
-  font-size: 1.75rem;
-  margin-bottom: 1.5rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #2c3e50;
+  font-weight: 600;
+  text-align: center;
 }
 
-.options {
+.progress {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: #34495e;
+  text-align: center;
+  font-weight: 500;
+}
+
+.optionsContainer {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  margin-top: 1.75rem;
+  gap: 1rem;
 }
 
 .optionButton {
-  background-color: #2563eb; /* blue-600 */
-  border: none;
-  border-radius: 8px;
-  padding: 0.9rem 1.2rem;
-  color: white;
+  padding: 0.75rem 1.2rem;
   font-size: 1.1rem;
-  font-weight: 600;
+  border: 2px solid #3498db;
+  border-radius: 8px;
+  background-color: white;
+  color: #3498db;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  user-select: none;
+  transition: background-color 0.3s, color 0.3s;
+  text-align: left;
 }
 
 .optionButton:hover:not(:disabled) {
-  background-color: #1d4ed8; /* blue-700 */
+  background-color: #3498db;
+  color: white;
 }
 
 .optionButton:disabled {
-  opacity: 0.55;
   cursor: not-allowed;
+  opacity: 0.6;
+  border-color: #95a5a6;
+  color: #7f8c8d;
+  background-color: #ecf0f1;
 }
 
-.result {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #22c55e; /* green-500 */
-  margin-top: 1rem;
-  letter-spacing: 0.04em;
+.loadingText {
+  font-size: 1.2rem;
+  color: #7f8c8d;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.resultText {
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-align: center;
+  color: #27ae60;
+}
+
+.loadingOverlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.7);
+  font-size: 1rem;
+  color: #2980b9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  border-radius: 10px;
 }

@@ -10,6 +10,7 @@ import CompareFunds from "./components/CompareFunds.jsx";
 
 export default function App() {
   const [theme, setTheme] = useState("light");
+  
 
   useEffect(() => {
     document.body.className = theme;

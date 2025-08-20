@@ -4,174 +4,161 @@ from pydantic import BaseModel
 router = APIRouter()
 
 QUESTIONS = [
-    {"id": 1, "question": "What is your primary investment goal?",
-     "options": [
-         {"text": "To become financially independent", "points": 3},
-         {"text": "To secure retirement", "points": 2},
-         {"text": "To preserve capital", "points": 1},
-         {"text": "To beat the market", "points": 4}
-     ]},
-    {"id": 2, "question": "What is your investment time horizon?",
-     "options": [
-         {"text": "Less than 1 year", "points": 1},
-         {"text": "1–3 years", "points": 2},
-         {"text": "3–5 years", "points": 3},
-         {"text": "More than 5 years", "points": 4}
-     ]},
-    {"id": 3, "question": "Are you investing for specific life goals?",
-     "options": [
-         {"text": "Yes, within 2 years", "points": 2},
-         {"text": "Yes, in 3–5 years", "points": 3},
-         {"text": "Yes, more than 5 years", "points": 4},
-         {"text": "No, for general growth", "points": 3}
-     ]},
-    {"id": 4, "question": "How would you react to a 25% loss in your portfolio?",
-     "options": [
-         {"text": "Panic and sell", "points": 1},
-         {"text": "Worry but wait", "points": 2},
-         {"text": "Stay calm and review", "points": 3},
-         {"text": "Buy more", "points": 4}
-     ]},
-    {"id": 5, "question": "How do you respond to market volatility?",
-     "options": [
-         {"text": "Avoid investing", "points": 1},
-         {"text": "Sell during dips", "points": 2},
-         {"text": "Stick to the plan", "points": 3},
-         {"text": "Buy on dips", "points": 4}
-     ]},
-    {"id": 6, "question": "What’s your instinct during global crises?",
-     "options": [
-         {"text": "Sell to protect capital", "points": 1},
-         {"text": "Monitor but hold", "points": 2},
-         {"text": "See as buying opportunity", "points": 3},
-         {"text": "Stay unfazed", "points": 4}
-     ]},
-    {"id": 7, "question": "How would you describe your investment knowledge?",
-     "options": [
-         {"text": "Minimal", "points": 1},
-         {"text": "Basic", "points": 2},
-         {"text": "Moderate", "points": 3},
-         {"text": "Advanced", "points": 4}
-     ]},
-    {"id": 8, "question": "Have you built a diversified portfolio before?",
-     "options": [
-         {"text": "No", "points": 1},
-         {"text": "Yes, with help", "points": 2},
-         {"text": "Yes, independently", "points": 3},
-         {"text": "Yes, and I monitor it", "points": 4}
-     ]},
-    {"id": 9, "question": "How often do you review your investments?",
-     "options": [
-         {"text": "Rarely", "points": 1},
-         {"text": "Occasionally", "points": 2},
-         {"text": "Monthly", "points": 3},
-         {"text": "Weekly or daily", "points": 4}
-     ]},
-    {"id": 10, "question": "What percent of your income do you invest?",
-     "options": [
-         {"text": "0–10%", "points": 1},
-         {"text": "11–25%", "points": 2},
-         {"text": "26–50%", "points": 3},
-         {"text": ">50%", "points": 4}
-     ]},
-    {"id": 11, "question": "Do you have an emergency fund (6+ months)?",
-     "options": [
-         {"text": "No, and it's a concern", "points": 1},
-         {"text": "No, but I have liquid assets", "points": 2},
-         {"text": "Yes, partially", "points": 3},
-         {"text": "Yes, fully funded", "points": 4}
-     ]},
-    {"id": 12, "question": "How stable is your income?",
-     "options": [
-         {"text": "Unstable", "points": 1},
-         {"text": "Slightly unstable", "points": 2},
-         {"text": "Stable", "points": 3},
-         {"text": "Very stable", "points": 4}
-     ]},
-    {"id": 13, "question": "How do you monitor your portfolio?",
-     "options": [
-         {"text": "Real-time alerts", "points": 4},
-         {"text": "Weekly reports", "points": 3},
-         {"text": "Monthly reports", "points": 2},
-         {"text": "Rarely or on events", "points": 1}
-     ]},
-    {"id": 14, "question": "What’s your reaction if your portfolio outperforms the market?",
-     "options": [
-         {"text": "Take more risk", "points": 4},
-         {"text": "Stick to plan", "points": 3},
-         {"text": "Take profits", "points": 2},
-         {"text": "Ignore, focus on long-term", "points": 1}
-     ]},
-    {"id": 15, "question": "What is your preferred investment style?",
-     "options": [
-         {"text": "Actively manage myself", "points": 4},
-         {"text": "Mix of active and passive", "points": 3},
-         {"text": "Passive with help", "points": 2},
-         {"text": "Leave to advisor", "points": 1}
-     ]},
-    {"id": 16, "question": "Are you interested in ESG or ethical investing?",
-     "options": [
-         {"text": "Yes, strongly", "points": 3},
-         {"text": "Somewhat", "points": 2},
-         {"text": "Not really", "points": 1},
-         {"text": "No preference", "points": 1}
-     ]},
-    {"id": 17, "question": "How do you handle investment losses?",
-     "options": [
-         {"text": "Exit immediately", "points": 1},
-         {"text": "Wait and watch", "points": 2},
-         {"text": "Stick to strategy", "points": 3},
-         {"text": "Buy more", "points": 4}
-     ]},
-    {"id": 18, "question": "Do you prefer long-term compounding or short-term gains?",
-     "options": [
-         {"text": "Short-term trades", "points": 1},
-         {"text": "Mix of both", "points": 2},
-         {"text": "Prefer long-term", "points": 3},
-         {"text": "Long-term only", "points": 4}
-     ]},
-    {"id": 19, "question": "How involved do you want to be in managing your investments?",
-     "options": [
-         {"text": "Full control", "points": 4},
-         {"text": "High involvement", "points": 3},
-         {"text": "Minimal involvement", "points": 2},
-         {"text": "Leave it to professionals", "points": 1}
-     ]},
-    {"id": 20, "question": "Do you value simplicity over performance?",
-     "options": [
-         {"text": "Strongly yes", "points": 1},
-         {"text": "Somewhat", "points": 2},
-         {"text": "No", "points": 3},
-         {"text": "Prefer complexity with better returns", "points": 4}
-     ]}
+    {
+        "id": 1,
+        "question": "What is your age group?",
+        "options": [
+            {"text": "Below 25 years", "points": 5},
+            {"text": "25–35 years", "points": 4},
+            {"text": "36–45 years", "points": 3},
+            {"text": "46–55 years", "points": 2},
+            {"text": "56+ years", "points": 1},
+        ],
+    },
+    {
+        "id": 2,
+        "question": "What is your type of occupation/income?",
+        "options": [
+            {"text": "Salaried (fixed income)", "points": 2},
+            {"text": "Professional / Consultant (variable)", "points": 3},
+            {"text": "Self-employed", "points": 4},
+            {"text": "Business Owner (fluctuating income)", "points": 5},
+        ],
+    },
+    {
+        "id": 3,
+        "question": "What is your annual income (INR)?",
+        "options": [
+            {"text": "< 5 Lakhs", "points": 1},
+            {"text": "5–10 Lakhs", "points": 2},
+            {"text": "10–25 Lakhs", "points": 3},
+            {"text": "25–50 Lakhs", "points": 4},
+            {"text": "50+ Lakhs", "points": 5},
+        ],
+    },
+    {
+        "id": 4,
+        "question": "How many financial dependents do you support?",
+        "options": [
+            {"text": "5 or more", "points": 1},
+            {"text": "3–4 dependents", "points": 2},
+            {"text": "1–2 dependents", "points": 3},
+            {"text": "None", "points": 5},
+        ],
+    },
+    {
+        "id": 5,
+        "question": "What is your primary investment goal?",
+        "options": [
+            {"text": "Short-term (<3 years, vacation, car)", "points": 1},
+            {"text": "Medium-term (3–5 years, house, education)", "points": 2},
+            {"text": "Long-term (retirement, kids’ education)", "points": 5},
+            {"text": "Regular Income requirement", "points": 2},
+        ],
+    },
+    {
+        "id": 6,
+        "question": "Expected Liquidity Preference?",
+        "options": [
+            {"text": "Very high (instant access)", "points": 1},
+            {"text": "Moderate (1–3 years)", "points": 3},
+            {"text": "Low (okay with 5–10 years)", "points": 5},
+        ],
+    },
+    {
+        "id": 7,
+        "question": "What annual return range do you expect?",
+        "options": [
+            {"text": "4–6% (very safe, FD-like)", "points": 1},
+            {"text": "7–10% (safe MF/debt)", "points": 2},
+            {"text": "11–15% (balanced funds, SIPs)", "points": 3},
+            {"text": "16–20% (growth oriented equity)", "points": 4},
+            {"text": "20%+ (aggressive / high growth)", "points": 5},
+        ],
+    },
+    {
+        "id": 8,
+        "question": "Preferred profit pattern?",
+        "options": [
+            {"text": "Stable small gains", "points": 1},
+            {"text": "Moderate consistency", "points": 2},
+            {"text": "Balanced growth, some volatility", "points": 3},
+            {"text": "High growth, high fluctuation", "points": 4},
+            {"text": "Doesn’t matter, long-term only", "points": 5},
+        ],
+    },
+    {
+        "id": 9,
+        "question": "How do you perceive investment risk?",
+        "options": [
+            {"text": "Not comfortable at all", "points": 1},
+            {"text": "Accept small fluctuations", "points": 2},
+            {"text": "Okay with moderate ups/downs", "points": 3},
+            {"text": "High risk tolerance", "points": 4},
+            {"text": "Very high tolerance, big losses are acceptable", "points": 5},
+        ],
+    },
+    {
+        "id": 10,
+        "question": "Which lifestyle suits you most?",
+        "options": [
+            {"text": "Highly disciplined saver", "points": 1},
+            {"text": "Conservative planner", "points": 2},
+            {"text": "Balanced & calculative", "points": 3},
+            {"text": "Ambitious growth-oriented", "points": 4},
+            {"text": "Flamboyant / big dreamer", "points": 5},
+        ],
+    },
+    {
+        "id": 11,
+        "question": "How would you rate your financial knowledge?",
+        "options": [
+            {"text": "Very limited (only FD/Gold/Real estate)", "points": 1},
+            {"text": "Basic (knows MFs/Insurance)", "points": 2},
+            {"text": "Moderate (aware of SIPs, asset mix)", "points": 3},
+            {"text": "Advanced (NAVs, taxation, categories)", "points": 4},
+            {"text": "Expert / Active market-following", "points": 5},
+        ],
+    },
+    {
+        "id": 12,
+        "question": "How important is tax saving in your investments?",
+        "options": [
+            {"text": "Very high (tax saving is priority)", "points": 1},
+            {"text": "Medium (balance tax vs growth)", "points": 3},
+            {"text": "Low (focus only on growth)", "points": 5},
+        ],
+    },
 ]
 
-
+# Scoring ranges (adjusted for 12 questions, max 60 points)
 SCORE_RANGES = [
-    (15, 25, "Ultra-Conservative"),
-    (26, 32, "Conservative"),
-    (28, 38, "Income-Oriented"),
-    (33, 44, "Balanced / Moderate"),
-    (45, 54, "Growth-Oriented"),
-    (55, 65, "Aggressive Growth"),
-    (60, 75, "Speculative")
+    (12, 20, "Ultra-Conservative"),
+    (21, 30, "Conservative but Calculative"),
+    (31, 40, "Balanced Growth"),
+    (41, 50, "Aggressive Growth"),
+    (51, 60, "Flamboyant / Risk Taker"),
 ]
+
 
 class Answer(BaseModel):
     question_id: int
     answer_index: int
 
+
 user_data = {}
+
 
 @router.get("/questions")
 async def get_questions():
     return {"questions": QUESTIONS}
 
+
 @router.post("/submit/{user_id}")
 async def submit_answer(user_id: str, answer: Answer):
     if not any(q["id"] == answer.question_id for q in QUESTIONS):
         raise HTTPException(400, "Invalid question ID")
-    
+
     q = next(q for q in QUESTIONS if q["id"] == answer.question_id)
     if answer.answer_index < 0 or answer.answer_index >= len(q["options"]):
         raise HTTPException(400, "Invalid answer index")
@@ -191,7 +178,9 @@ async def submit_answer(user_id: str, answer: Answer):
             return {"next_question": nq}
 
     score = user_data[user_id]["score"]
-    result = next((cat for low, high, cat in SCORE_RANGES 
-                  if low <= score <= high), "Unclassified")
+    result = next(
+        (cat for low, high, cat in SCORE_RANGES if low <= score <= high),
+        "Unclassified",
+    )
     del user_data[user_id]
     return {"score": score, "result": result}
