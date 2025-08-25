@@ -1,9 +1,8 @@
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from motor.motor_asyncio import AsyncIOMotorClient
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./dev.db"
-engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-Base = declarative_base()
 
+MONGODB_URL = "mongodb://localhost:27017"  # Change to your MongoDB connection URL
+DATABASE_NAME = "users"             # Set your database name
+
+client = AsyncIOMotorClient(MONGODB_URL)
+db = client[DATABASE_NAME]

@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.auth import router as auth_router
 from app.funds import router as funds_router
 from app.questionnaire import router as questionnaire_router
+from app.userdata import router as userdata_router
 
 
 
@@ -22,6 +23,7 @@ app.add_middleware(
 app.include_router(auth_router, prefix="/api/auth")
 app.include_router(funds_router, prefix="/api/funds")
 app.include_router(questionnaire_router, prefix="/api/questionnaire")
+app.include_router(userdata_router, prefix="/api/userdata")
 
 @app.get("/")
 async def root():

@@ -4,11 +4,25 @@
   --border-color: #cccccc;
 }
 
-body.dark {
-  --bg-color: #1e1e1e;
-  --text-color: #ffffff;
-  --border-color: #555555;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  transition: background-color 0.3s ease;
+  background-image: url('frontend/public/lightmode_pg.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
+
+body.dark {
+  background-image: url('frontend/public/darkmode_pg.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: #121212;
+  color: #eee;
+}
+
 
 body, html, #root {
   height: 100vh;

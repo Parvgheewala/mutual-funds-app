@@ -3,11 +3,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(120deg, #f8fff8, #a3d9a5);
+  background: var(--lightmode_BG);
 }
 
 :global(.dark) .loginContainer {
-  background: linear-gradient(120deg, #0d1b2a, #1b263b);
+  background: var(--darkmode_BG);
 }
 
 .card {

@@ -1,15 +1,4 @@
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  transition: background-color 0.3s ease;
-}
-
-body.dark {
-  background-color: #121212;
-  color: #eee;
-}
-
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -36,11 +25,23 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  transition: background-color 0.3s ease;
+  background-image: url('frontend/public/lightmode_pg.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
+
+body.dark {
+  background-image: url('frontend/public/darkmode_pg.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: #121212;
+  color: #eee;
+}
+
 
 h1 {
   font-size: 3.2em;
