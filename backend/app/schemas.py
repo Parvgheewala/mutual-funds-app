@@ -1,27 +1,45 @@
-from pydantic import BaseModel, EmailStr
-from typing import Optional, Dict
+from pydantic import BaseModel, EmailStr, Field, ConfigDict
+from typing import Optional
 
-class UserCreate(BaseModel):
+# ---------- User ----------
+class UserBase(BaseModel):
+    name: str = Field(min_length=1, max_length=120)
     email: EmailStr
-    password: str
-    risk_profile: Optional[str]
 
-class UserOut(BaseModel):
-    id: str
-    email: EmailStr
-    risk_profile: Optional[str]
+class UserCreate(UserBase):
+    pass
 
-class MutualFundCreate(BaseModel):
-    name: str
-    category: Optional[str]
-    risk_level: Optional[str]
-    nav_history: Optional[Dict]
-    expense_ratio: Optional[float]
+class UserUpdate(BaseModel):
+    username: Optional[str] = None
+    email: Optional[str] = None
+    password: Optional[str] = None
 
-class MutualFundOut(BaseModel):
-    id: str
-    name: str
-    category: Optional[str]
-    risk_level: Optional[str]
-    nav_history: Optional[Dict]
-    expense_ratio: Optional[float]
+class User(UserBase):
+    id: int
+
+    class Config:
+        from_attributes = True
+
+class UserOut(UserBase):
+    model_config = ConfigDict(from_attributes=True)
+    id: int
+
+# ---------- Mutual Fund ----------
+class MutualFundBase(BaseModel):
+    name: str = Field(min_length=1, max_length=200)
+    category: Optional[str] = Field(default=None, max_length=100)
+    nav: Optional[float] = None
+    owner_id: Optional[int] = None
+
+class MutualFundCreate(MutualFundBase):
+    pass
+
+class MutualFundUpdate(BaseModel):
+    name: Optional[str] = Field(default=None, max_length=200)
+    category: Optional[str] = Field(default=None, max_length=100)
+    nav: Optional[float] = None
+    owner_id: Optional[int] = None
+
+class MutualFundOut(MutualFundBase):
+    model_config = ConfigDict(from_attributes=True)
+    id: int
