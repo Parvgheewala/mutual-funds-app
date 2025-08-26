@@ -50,7 +50,7 @@ export default function Login() {
           <button type="submit">Login</button>
         </form>
         <div className={styles.links}>
-          <a href="#">Forgot Password?</a> | <Link to="/api/userdata/users">Create Account</Link>
+          <a href="#">Forgot Password?</a> | <Link to="/api/users">Create Account</Link>
         </div>
       </div>
     </div>

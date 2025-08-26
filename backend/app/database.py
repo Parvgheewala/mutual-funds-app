@@ -5,31 +5,29 @@ from sqlalchemy.ext.automap import automap_base
 from dotenv import load_dotenv
 import os
 
-# Force load .env from backend folder
+# Load .env from backend folder
 dotenv_path = os.path.join(os.path.dirname(__file__), "..", ".env")
 load_dotenv(dotenv_path=dotenv_path)
 
-# Get DB URL
 DATABASE_URL = os.getenv("DATABASE_URL")
-print("DATABASE_URL =", DATABASE_URL)  # Debug print
 
-# Create async engine
+# Async engine
 engine = create_async_engine(DATABASE_URL, echo=True, future=True)
 
-# Create session factory
+# Async session factory
 AsyncSessionLocal = sessionmaker(
     bind=engine,
     expire_on_commit=False,
-    class_=AsyncSession
+    class_=AsyncSession,
 )
 
-# Base class for models
+# Declarative base
 Base = declarative_base()
 
-# Automap base (for reflection)
+# Optional: automap base if you need reflection elsewhere
 AutomapBase = automap_base()
 
-# Dependency for FastAPI
+# FastAPI dependency
 async def get_db() -> AsyncSession:
     async with AsyncSessionLocal() as session:
         yield session

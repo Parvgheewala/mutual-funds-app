@@ -7,6 +7,7 @@ import FundDetail from "./components/FundDetail";
 import "./global.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import CompareFunds from "./components/CompareFunds.jsx";
+import SignupForm from "./components/SignupForm.jsx";
 
 export default function App() {
   const [theme, setTheme] = useState("light");
@@ -31,6 +32,7 @@ export default function App() {
           <Route path="/api/auth/*" element={<Login />} />
           <Route path="/api/funds/details/:fundName" element={<FundDetail />} />
           <Route path="/compare-funds" element={<CompareFunds />} />
+          <Route path="/api/users" element={<SignupForm />} />
         </Routes>
       </div>
     </Router>

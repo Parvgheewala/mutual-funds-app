@@ -1,28 +1,27 @@
+# app/schemas.py
 from pydantic import BaseModel, EmailStr, Field, ConfigDict
 from typing import Optional
+from datetime import datetime
 
 # ---------- User ----------
 class UserBase(BaseModel):
-    name: str = Field(min_length=1, max_length=120)
+    username: str = Field(min_length=1, max_length=50)
     email: EmailStr
 
 class UserCreate(UserBase):
-    pass
+    password: str = Field(min_length=6, max_length=255)
 
 class UserUpdate(BaseModel):
-    username: Optional[str] = None
-    email: Optional[str] = None
-    password: Optional[str] = None
+    username: Optional[str] = Field(default=None, max_length=50)
+    email: Optional[EmailStr] = None
+    password: Optional[str] = Field(default=None, max_length=255)
 
-class User(UserBase):
-    id: int
-
-    class Config:
-        from_attributes = True
-
-class UserOut(UserBase):
+class UserOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     id: int
+    username: str
+    email: EmailStr
+    created_at: Optional[datetime] = None
 
 # ---------- Mutual Fund ----------
 class MutualFundBase(BaseModel):

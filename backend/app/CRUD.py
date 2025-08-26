@@ -1,16 +1,77 @@
 # app/crud.py
 from typing import Optional, Sequence
-from sqlalchemy import select, update, delete
-from sqlalchemy.ext.asyncio import AsyncSession
+
+from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.ext.asyncio import AsyncSession
 
-from . import models, schemas
+from app import models, schemas
+from app.security import hash_password
 
-# ---------- USERS ----------
+# -----------------------------
+# Create user
+# -----------------------------
+async def create_user(db: AsyncSession, user_in: schemas.UserCreate) -> models.User:
+    """
+    Create a new user. Username and email are unique.
+    Password is hashed before storing.
+    """
+    new_user = models.User(
+        username=user_in.username,
+        email=user_in.email,
+        password=hash_password(user_in.password),
+    )
+    db.add(new_user)
+    try:
+        await db.commit()
+        await db.refresh(new_user)
+        return new_user
+    except IntegrityError:
+        # Unique constraint violation on username/email
+        await db.rollback()
+        raise
 
-async def create_user(db: AsyncSession, user_data: schemas.UserCreate) -> models.User:
-    user = models.User(**user_data.model_dump())
-    db.add(user)
+# -----------------------------
+# List users (paginated)
+# -----------------------------
+async def list_users(
+    db: AsyncSession, skip: int = 0, limit: int = 50
+) -> Sequence[models.User]:
+    result = await db.execute(select(models.User).offset(skip).limit(limit))
+    return result.scalars().all()
+
+# -----------------------------
+# Get user by ID
+# -----------------------------
+async def get_user_by_id(db: AsyncSession, user_id: int) -> Optional[models.User]:
+    result = await db.execute(select(models.User).where(models.User.id == user_id))
+    return result.scalar_one_or_none()
+
+# -----------------------------
+# Get user by username (helper)
+# -----------------------------
+async def get_user_by_username(db: AsyncSession, username: str) -> Optional[models.User]:
+    result = await db.execute(select(models.User).where(models.User.username == username))
+    return result.scalar_one_or_none()
+
+# -----------------------------
+# Update user (partial)
+# -----------------------------
+async def update_user(
+    db: AsyncSession, user_id: int, user_in: schemas.UserUpdate
+) -> Optional[models.User]:
+    user = await get_user_by_id(db, user_id)
+    if not user:
+        return None
+
+    # Apply partial changes
+    if user_in.username is not None:
+        user.username = user_in.username
+    if user_in.email is not None:
+        user.email = user_in.email
+    if user_in.password is not None and user_in.password != "":
+        user.password = hash_password(user_in.password)
+
     try:
         await db.commit()
         await db.refresh(user)
@@ -19,74 +80,13 @@ async def create_user(db: AsyncSession, user_data: schemas.UserCreate) -> models
         await db.rollback()
         raise
 
-async def get_user_by_id(db: AsyncSession, user_id: int) -> Optional[models.User]:
-    res = await db.execute(select(models.User).where(models.User.id == user_id))
-    return res.scalar_one_or_none()
-
-async def get_user_by_email(db: AsyncSession, email: str) -> Optional[models.User]:
-    res = await db.execute(select(models.User).where(models.User.email == email))
-    return res.scalar_one_or_none()
-
-async def list_users(db: AsyncSession, skip: int = 0, limit: int = 50) -> Sequence[models.User]:
-    res = await db.execute(
-        select(models.User).offset(skip).limit(limit).order_by(models.User.id)
-    )
-    return res.scalars().all()
-
-async def update_user(db: AsyncSession, user_id: int, user_data: schemas.UserUpdate) -> Optional[models.User]:
-    data = {
-        k: v for k, v in user_data.model_dump(exclude_unset=True).items()
-        if v is not None
-    }
-    if not data:
-        return await get_user_by_id(db, user_id)
-
-    await db.execute(
-        update(models.User)
-        .where(models.User.id == user_id)
-        .values(**data)
-    )
-    await db.commit()
-    return await get_user_by_id(db, user_id)
-
+# -----------------------------
+# Delete user
+# -----------------------------
 async def delete_user(db: AsyncSession, user_id: int) -> bool:
-    res = await db.execute(delete(models.User).where(models.User.id == user_id))
+    user = await get_user_by_id(db, user_id)
+    if not user:
+        return False
+    await db.delete(user)
     await db.commit()
-    return res.rowcount > 0
-
-# ---------- MUTUAL FUNDS ----------
-
-async def create_mutualfund(db: AsyncSession, mf_data: schemas.MutualFundCreate) -> models.MutualFund:
-    mf = models.MutualFund(**mf_data.model_dump())
-    db.add(mf)
-    await db.commit()
-    await db.refresh(mf)
-    return mf
-
-async def get_mutualfund_by_id(db: AsyncSession, mf_id: int) -> Optional[models.MutualFund]:
-    res = await db.execute(select(models.MutualFund).where(models.MutualFund.id == mf_id))
-    return res.scalar_one_or_none()
-
-async def list_mutualfunds(db: AsyncSession, skip: int = 0, limit: int = 50) -> Sequence[models.MutualFund]:
-    res = await db.execute(
-        select(models.MutualFund).offset(skip).limit(limit).order_by(models.MutualFund.id)
-    )
-    return res.scalars().all()
-
-async def update_mutualfund(db: AsyncSession, mf_id: int, mf_data: schemas.MutualFundUpdate) -> Optional[models.MutualFund]:
-    data = {k: v for k, v in mf_data.model_dump(exclude_unset=True).items() if v is not None}
-    if not data:
-        return await get_mutualfund_by_id(db, mf_id)
-
-    await db.execute(
-        update(models.MutualFund)
-        .where(models.MutualFund.id == mf_id)
-        .values(**data)
-    )
-    await db.commit()
-    return await get_mutualfund_by_id(db, mf_id)
-
-async def delete_mutualfund(db: AsyncSession, mf_id: int) -> bool:
-    res = await db.execute(delete(models.MutualFund).where(models.MutualFund.id == mf_id))
-    await db.commit()
-    return res.rowcount > 0
+    return True

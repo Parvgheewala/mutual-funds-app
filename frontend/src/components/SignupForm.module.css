@@ -1,78 +1,150 @@
+/* Container fills the viewport and centers the card */
 .signup-container {
+  flex: 1;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background: #f9f9f9;
+  background: var(--lightmode_BG, #f7f7f9);
+  padding: 24px;
 }
 
+/* Dark mode via a top-level .dark class on <html> or <body> */
+:global(.dark) .signup-container {
+  background: var(--darkmode_BG, #0b1220);
+}
+
+/* Form card */
 .signup-form {
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 350px;
+  width: 100%;
+  max-width: 360px;
+  background-color: var(--bg-color, #ffffff);
+  color: var(--text-color, #1f2937);
+  border-radius: 14px;
+  padding: 28px 26px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
+  gap: 14px;
+  transition: box-shadow 180ms ease, transform 180ms ease;
 }
 
+.signup-form:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Title */
 .signup-form h2 {
-  text-align: center;
-  margin-bottom: 1.5rem;
-  color: #333;
+  margin: 0 0 6px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
 }
 
+/* Labels */
 .signup-form label {
-  margin-bottom: 0.3rem;
-  font-size: 14px;
-  font-weight: 500;
-  color: #444;
+  font-size: 0.85rem;
+  color: var(--muted-color, #6b7280);
+  margin-top: 8px;
 }
 
+/* Inputs */
 .signup-form input {
-  padding: 10px;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
+  margin-top: 6px;
+  padding: 11px 12px;
+  border: 1px solid var(--border-color, #e5e7eb);
+  background-color: var(--input-bg, #ffffff);
+  color: var(--input-fg, #111827);
   border-radius: 8px;
-  font-size: 14px;
-  transition: border-color 0.2s;
+  outline: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+.signup-form input::placeholder {
+  color: #9ca3af;
 }
 
 .signup-form input:focus {
-  outline: none;
-  border-color: #007bff;
+  border-color: #ec4899;           /* pink-500 */
+  box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.18);
 }
 
+/* Dark theme overrides */
+:global(.dark) .signup-form {
+  background-color: #0d1b2a;
+  color: #e5e7eb;
+}
+
+:global(.dark) .signup-form label {
+  color: #a5b4fc;
+}
+
+:global(.dark) .signup-form input {
+  background-color: #0b1624;
+  color: #f3f4f6;
+  border-color: #415a77;
+}
+
+:global(.dark) .signup-form input:focus {
+  border-color: #ffd166;
+  box-shadow: 0 0 0 3px rgba(255, 209, 102, 0.25);
+}
+
+/* Submit button */
 .signup-form button {
-  background: #007bff;
-  color: white;
-  padding: 12px;
+  margin-top: 6px;
+  padding: 11px 12px;
   border: none;
   border-radius: 8px;
-  font-size: 16px;
+  background-color: #ec4899;       /* pink-500 */
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.2px;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background-color 160ms ease, transform 80ms ease, box-shadow 160ms ease;
 }
 
 .signup-form button:hover {
-  background: #0056b3;
+  background-color: #db2777;       /* pink-600 */
+}
+
+.signup-form button:active {
+  transform: translateY(1px);
 }
 
 .signup-form button:disabled {
-  background: #aaa;
+  opacity: 0.65;
   cursor: not-allowed;
 }
 
+/* Dark button */
+:global(.dark) .signup-form button {
+  background-color: #ffd166;
+  color: #1b263b;
+}
+
+:global(.dark) .signup-form button:hover {
+  background-color: #f8c34a;
+}
+
+/* Status/message */
 .signup-message {
-  margin-top: 1rem;
+  margin-top: 8px;
+  font-size: 0.92rem;
   text-align: center;
-  font-size: 14px;
+  color: #059669;                  /* green-600 for success by default */
 }
 
-.signup-message:before {
-  content: "ℹ️ ";
+/* Error style helper; optionally toggle via JS by adding .error */
+.signup-message.error {
+  color: #dc2626;                  /* red-600 */
 }
 
-.signup-message {
-  color: #007bff;
+/* Small screen tweaks */
+@media (max-width: 420px) {
+  .signup-form {
+    padding: 22px 18px;
+    border-radius: 12px;
+  }
 }
