@@ -1,7 +1,9 @@
 import { useState } from "react";
 import styles from "./SignupForm.module.css";
+import { useNavigate } from "react-router-dom";
 
 export default function SignupForm() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     username: "",
     email: "",
@@ -38,6 +40,7 @@ export default function SignupForm() {
       if (res.ok) {
         setMsg({ type: "success", text: "Account created successfully." });
         setForm({ username: "", email: "", password: "" });
+        navigate("/api/questionnaire");
       } else {
         const detail =
           (data && (data.detail || data.message)) ||

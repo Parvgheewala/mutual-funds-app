@@ -151,7 +151,7 @@ export default function MutualFunds() {
 
       <button
         className={styles.loadMoreButton}
-        onClick={() => navigate("/compare-funds")}
+        onClick={() => navigate("/api/compare-funds")}
       >
         Compare Funds
       </button>

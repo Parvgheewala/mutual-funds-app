@@ -1,98 +1,26 @@
-:root {
-  /* Light mode colors */
-  --bg-color: #ffffff;
-  --text-color: #1a1a1a;
-
-  --input-bg: #f9f9f9;
-  --input-border: #ccc;
-
-  --suggestion-bg: #ffffff;
-  --highlight-bg: #e0e0e0;
-
-  --tag-bg: #f0f0f0;
-  --tag-text: #1a1a1a;
-
-  --remove-btn-bg: #ff4d4d;
-  --remove-btn-text: #ffffff;
-
-  --graph-card-bg: #fafafa;
-
-  /* 👇 NEW */
-  --search-text-color: #1a1a1a; /* Light mode search text */
-}
-
-[data-theme="dark"] {
-  /* Dark mode colors */
-  --bg-color: #1e1e1e;
-  --text-color: #f5f5f5; /* keep general text readable */
-
-  --input-bg: #2b2b2b;
-  --input-border: #555;
-
-  --suggestion-bg: #2b2b2b;
-  --highlight-bg: #3b3b3b;
-
-  --tag-bg: #333333;
-  --tag-text: #f5f5f5;
-
-  --remove-btn-bg: #ff4d4d;
-  --remove-btn-text: #ffffff;
-
-  --graph-card-bg: #2a2a2a;
-
-  /* 👇 NEW */
-  --search-text-color: #020444; /* Dark mode: special blue for search text */
-}
-
-/* ---------------- BASE CONTAINERS ---------------- */
-.container {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  padding: 20px;
-  font-family: sans-serif;
-  transition: background 0.3s, color 0.3s;
-}
-
-/* ---------------- INPUTS ---------------- */
+.container { background: transparent; color: var(--fg); padding: 20px; }
 .searchInput {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-
-  border: 1px solid var(--input-border);
-  border-radius: 4px;
-  background-color: var(--input-bg);
-  
-  /* ✅ use dedicated search text variable */
-  color: var(--search-text-color);
-
-  transition: background 0.3s, border 0.3s, color 0.3s;
+  width: 100%; padding: 10px; margin-bottom: 10px;
+  border: 1px solid var(--input-border); border-radius: 4px;
+  background: var(--input-bg); color: var(--input-fg);
 }
-
-/* ---------------- SUGGESTIONS DROPDOWN ---------------- */
 .suggestionsList {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  border: 1px solid var(--input-border);
-  border-radius: 4px;
-  background-color: var(--suggestion-bg);
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 1000;
-  position: absolute;
-  width: 100%;
+  list-style: none; margin: 0; padding: 0;
+  border: 1px solid var(--input-border); border-radius: 4px;
+  background: var(--panel); max-height: 200px; overflow-y: auto;
+  z-index: 1000; position: absolute; width: 100%;
+  box-shadow: var(--shadow-1);
 }
-
-.suggestionItem {
-  padding: 8px 12px;
-  cursor: pointer;
-  color: var(--search-text-color); /* ✅ also use the search variable */
+.suggestionItem { padding: 8px 12px; cursor: pointer; color: var(--fg); }
+.suggestionItem:hover, .highlighted { background: color-mix(in oklab, var(--border) 40%, transparent); }
+.tags { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 12px; }
+.tag {
+  background: color-mix(in oklab, var(--accent) 15%, var(--panel)); color: var(--fg);
+  border-radius: 999px; padding: 6px 10px;
+  border: 1px solid color-mix(in oklab, var(--accent) 35%, var(--border));
+  display: inline-flex; align-items: center; gap: 8px;
 }
-
-.suggestionItem:hover,
-.highlighted {
-  background-color: var(--highlight-bg);
+.tagRemove { background: var(--danger); color: #fff; border: none; border-radius: 999px; padding: 4px 8px; cursor: pointer; }
+.graphCard {
+  background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; box-shadow: var(--shadow-1);
 }
-
-/* ---------------- rest of your styles unchanged ---------------- */

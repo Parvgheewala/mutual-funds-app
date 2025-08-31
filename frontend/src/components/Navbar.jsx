@@ -80,7 +80,7 @@ export default function Navbar({ theme, toggleTheme }) {
           </div>
         )}
       </div>
-      <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+      <ThemeToggle theme={theme} toggleTheme={toggleTheme} styles={{ paddingRight: "24px" }} />
     </nav>
   );
 }

@@ -10,22 +10,29 @@ export default function Login() {
   const handleLogin = async (e) => {
   e.preventDefault();
   try {
-    const response = await fetch("http://localhost:8000/api/auth/login", {
+    const res = await fetch("http://localhost:8000/api/auth/login", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, password }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ identifier: username || email , password }), // or { identifier: username } if backend changed
     });
-    if (response.ok) {
-      navigate("/api/funds");
-    } else {
+
+    if (!res.ok) {
       alert("Invalid credentials");
+      return;
     }
-  } catch (error) {
+
+    const data = await res.json();
+    // Save token and user
+    localStorage.setItem("access_token", data.access_token);
+    localStorage.setItem("user", JSON.stringify(data.user));
+
+    // Navigate to a frontend route, not the API
+    navigate("/api/funds"); // ensure this route exists in React Router
+  } catch (err) {
     alert("Login failed");
   }
 };
+
 
   return (
     <div className={styles.loginContainer}>

@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 # Routers
 from app.auth import router as auth_router
 from app.funds import router as funds_router
+from app.fundDetail import router as fund_detail_router
 from app.questionnaire import router as questionnaire_router
 from app.routers.users import router as users_router
 from app.routers.mutualfunds import router as mf_router
@@ -36,7 +37,8 @@ app.include_router(auth_router, prefix="/api/auth", tags=["Auth"])
 app.include_router(funds_router, prefix="/api/funds", tags=["Funds"])
 app.include_router(questionnaire_router, prefix="/api/questionnaire", tags=["Questionnaire"])
 app.include_router(users_router, prefix="/api/users", tags=["Users"])
-app.include_router(mf_router, prefix="/api/mutual-funds", tags=["Mutual Funds"])
+app.include_router(mf_router, prefix="/api/mutual-funds", tags=["Mutual Funds Database"])
+app.include_router(fund_detail_router, prefix="/api/mutual-funds/risk", tags=["Mutual Funds Risk"])
 
 # ---------------------------
 # Root endpoint

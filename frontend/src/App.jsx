@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./components/Navbar.jsx";
-import Login from "./components/Login.jsx";
-import MutualFunds from "./components/MutualFunds.jsx";
-import Questionnaire from "./components/Questionnaire.jsx";
-import FundDetail from "./components/FundDetail";
-import "./global.css";
+import AppRoutes from "./routes/AppRoutes.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import CompareFunds from "./components/CompareFunds.jsx";
-import SignupForm from "./components/SignupForm.jsx";
+import "./global.css";
+// import "./App.css";
 
 export default function App() {
   const [theme, setTheme] = useState("light");
@@ -23,17 +19,9 @@ export default function App() {
 
   return (
     <Router>
-      <div className="app">
+      <div className="app" style={{ background: theme === "light" ? "#f9f9f9" : "#121212" }}>
         <Navbar theme={theme} toggleTheme={toggleTheme} />
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/api/funds/*" element={<MutualFunds />} />
-          <Route path="/api/questionnaire/*" element={<Questionnaire />} />
-          <Route path="/api/auth/*" element={<Login />} />
-          <Route path="/api/funds/details/:fundName" element={<FundDetail />} />
-          <Route path="/compare-funds" element={<CompareFunds />} />
-          <Route path="/api/users" element={<SignupForm />} />
-        </Routes>
+        <AppRoutes />
       </div>
     </Router>
   );

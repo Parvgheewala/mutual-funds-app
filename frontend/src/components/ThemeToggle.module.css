@@ -1,15 +1,12 @@
 .toggleBtn {
   background: transparent;
-  border: 1px solid var(--text-color);
-  color: var(--text-color);
+  border: 1px solid var(--fg);
+  color: var(--fg);
   padding: 6px 12px;
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
-  transition: background 0.3s, color 0.3s;
+  transition: background .2s, color .2s;
+  /* padding-right: 24px ; */
 }
-
-.toggleBtn:hover {
-  background: var(--text-color);
-  color: var(--bg-color);
-}
+.toggleBtn:hover { background: var(--fg); color: var(--bg); }

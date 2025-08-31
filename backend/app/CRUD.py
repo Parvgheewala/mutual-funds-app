@@ -8,14 +8,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app import models, schemas
 from app.security import hash_password
 
-# -----------------------------
 # Create user
-# -----------------------------
 async def create_user(db: AsyncSession, user_in: schemas.UserCreate) -> models.User:
-    """
-    Create a new user. Username and email are unique.
-    Password is hashed before storing.
-    """
     new_user = models.User(
         username=user_in.username,
         email=user_in.email,
@@ -27,44 +21,30 @@ async def create_user(db: AsyncSession, user_in: schemas.UserCreate) -> models.U
         await db.refresh(new_user)
         return new_user
     except IntegrityError:
-        # Unique constraint violation on username/email
         await db.rollback()
         raise
 
-# -----------------------------
-# List users (paginated)
-# -----------------------------
-async def list_users(
-    db: AsyncSession, skip: int = 0, limit: int = 50
-) -> Sequence[models.User]:
+# List users
+async def list_users(db: AsyncSession, skip: int = 0, limit: int = 50) -> Sequence[models.User]:
     result = await db.execute(select(models.User).offset(skip).limit(limit))
     return result.scalars().all()
 
-# -----------------------------
 # Get user by ID
-# -----------------------------
 async def get_user_by_id(db: AsyncSession, user_id: int) -> Optional[models.User]:
     result = await db.execute(select(models.User).where(models.User.id == user_id))
     return result.scalar_one_or_none()
 
-# -----------------------------
-# Get user by username (helper)
-# -----------------------------
+# Get user by username
 async def get_user_by_username(db: AsyncSession, username: str) -> Optional[models.User]:
     result = await db.execute(select(models.User).where(models.User.username == username))
     return result.scalar_one_or_none()
 
-# -----------------------------
 # Update user (partial)
-# -----------------------------
-async def update_user(
-    db: AsyncSession, user_id: int, user_in: schemas.UserUpdate
-) -> Optional[models.User]:
+async def update_user(db: AsyncSession, user_id: int, user_in: schemas.UserUpdate) -> Optional[models.User]:
     user = await get_user_by_id(db, user_id)
     if not user:
         return None
 
-    # Apply partial changes
     if user_in.username is not None:
         user.username = user_in.username
     if user_in.email is not None:
@@ -80,9 +60,7 @@ async def update_user(
         await db.rollback()
         raise
 
-# -----------------------------
 # Delete user
-# -----------------------------
 async def delete_user(db: AsyncSession, user_id: int) -> bool:
     user = await get_user_by_id(db, user_id)
     if not user:

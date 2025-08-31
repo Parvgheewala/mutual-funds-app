@@ -1,180 +1,40 @@
-.container {
-  max-width: 900px;
-  margin: 2rem auto;
-  padding: 0;
-  background-color: transparent;
-  box-shadow: none;
-  border-radius: 0;
-  transition: background 0.3s;
-}
-
-/* Default (dark mode or general) */
-
-
-body.light .title {
-  font-size: 2rem;
-  color: var(--primary-text, #1467bf);
-  margin-bottom: 1.5rem;
-  font-weight: 700;
-  text-align: center;
-}
-
-body.dark .title {
-  font-size: 2rem;
-  color: var(--primary-text, #f8f9fa);
-  margin-bottom: 1.5rem;
-  font-weight: 700;
-  text-align: center;
-}
-
-.letterFilter {
-  margin-bottom: 1rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  justify-content: center;
-}
-
+.container { max-width: 1000px; margin: 2rem auto; padding: 0 16px; }
+.title { font-size: 2rem; color: var(--primary); margin-bottom: 1.5rem; font-weight: 700; text-align: center; }
+.letterFilter { margin-bottom: 1rem; display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
 .letterButton {
-  background: #e0e0e0;
-  border: none;
-  padding: 6px 10px;
-  font-weight: 600;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+  background: #e0e0e0; border: none; padding: 6px 10px; font-weight: 600;
+  border-radius: 6px; cursor: pointer; transition: background-color .2s;
 }
-
-.letterButton:hover {
-  background-color: #b8b8b8;
-}
-
-.activeLetter {
-  background-color: #2980b9;
-  color: white;
-}
-
-.fundList {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.2rem;
-  margin-bottom: 2rem;
-}
-
-body.light .fundItem,
-.light .fundItem {
-  background-color: #2c3e50;
-  color: #fff;
-  border: 2px solid #1a2939;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-}
-
-
-
-body.dark .fundItem,
-.dark .fundItem {
-  background-color: #222f3e;
-  color: #f8f9fa;
-  border: 2px solid #27ae60;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
-}
-
+.letterButton:hover { background-color: #cfd3d7; }
+.activeLetter { background-color: var(--primary); color: #fff; }
+.fundList { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.2rem; margin-bottom: 2rem; }
 .fundItem {
-  padding: 1rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  border-radius: 10px;
-  cursor: pointer;
-  text-align: center;
-  transition: background-color 0.3s, box-shadow 0.3s;
+  background: color-mix(in oklab, var(--primary) 10%, var(--panel));
+  color: var(--fg);
+  border: 2px solid color-mix(in oklab, var(--primary) 25%, var(--border));
+  padding: 1rem; font-size: 1.05rem; font-weight: 600;
+  border-radius: 10px; cursor: pointer; text-align: center;
+  transition: background-color .2s, box-shadow .2s, border-color .2s;
 }
-
-.fundItem:hover,
-.fundItem:focus {
-  background-color: #14507b;
-  color: #fff;
-  border-color: #0f3a54;
-  outline: none;
-  box-shadow: 0 4px 20px rgba(20, 80, 123, 0.5);
+.fundItem:hover, .fundItem:focus {
+  background: color-mix(in oklab, var(--primary) 18%, var(--panel));
+  border-color: var(--primary);
+  box-shadow: 0 4px 18px color-mix(in oklab, var(--primary) 25%, transparent);
 }
-
-.pagination {
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-  flex-wrap: wrap;
-}
-
+.pagination { display: flex; justify-content: center; gap: .5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
 .pageButton {
-  border: 1.5px solid #2980b9;
-  background: white;
-  color: #2980b9;
-  padding: 0.45rem 0.9rem;
-  font-weight: 600;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
+  border: 1.5px solid var(--primary); background: #fff; color: var(--primary);
+  padding: .45rem .9rem; font-weight: 600; border-radius: 6px; cursor: pointer;
+  transition: background-color .2s, color .2s;
 }
-
-.pageButton:hover:not(:disabled) {
-  background-color: #2980b9;
-  color: white;
-}
-
-.pageButton:disabled {
-  border-color: #bdc3c7;
-  color: #bdc3c7;
-  cursor: not-allowed;
-  background: #f4f6f8;
-}
-
-.currentPage {
-  font-weight: 600;
-  align-self: center;
-  padding: 0 10px;
-}
-
+.pageButton:hover:not(:disabled) { background: var(--primary); color: #fff; }
+.pageButton:disabled { border-color: var(--border); color: var(--muted); background: var(--panel-2); cursor: not-allowed; }
+.currentPage { font-weight: 600; align-self: center; padding: 0 10px; }
 .loadMoreButton {
-  display: block;
-  margin: 0.8rem auto 0 auto;
-  padding: 0.7rem 2rem;
-  background: var(--button-bg, #2980b9);
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(41, 128, 185, 0.12);
-  cursor: pointer;
-  transition: background 0.18s, box-shadow 0.2s;
+  display: block; margin: .8rem auto 0; padding: .7rem 2rem;
+  background: var(--primary); color: #fff; font-size: 1rem; font-weight: 600;
+  border: none; border-radius: 8px; box-shadow: var(--shadow-1);
+  cursor: pointer; transition: background .18s, box-shadow .2s;
 }
-
-.loadMoreButton:hover,
-.loadMoreButton:focus {
-  background: #14507b;
-  box-shadow: 0 4px 24px rgba(41, 128, 185, 0.18);
-  outline: none;
-}
-
-/* Light and dark mode variables */
-body.light,
-.light {
-  --button-bg: #2980b9;
-  --primary-text: #1a242f;
-}
-
-body.dark,
-.dark {
-  --button-bg: #27ae60;
-  --primary-text: #f8f9fa;
-}
-
-/* Loading & Error states */
-.loading,
-.error {
-  text-align: center;
-  font-size: 1.25rem;
-  color: #b71111;
-  margin-top: 2rem;
-}
+.loadMoreButton:hover, .loadMoreButton:focus { background: color-mix(in oklab, var(--primary) 85%, black); box-shadow: var(--shadow-2); }
+.loading, .error { text-align: center; font-size: 1.1rem; color: var(--danger); margin-top: 2rem; }

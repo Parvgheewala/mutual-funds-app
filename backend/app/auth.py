@@ -1,44 +1,40 @@
-# backend/app/auth.py
+# app/auth.py
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
-
+from sqlalchemy import select, or_
 from app.database import get_db
 from app.models import User
+from app.security import verify_password, create_access_token
 
-router = APIRouter(prefix="/auth", tags=["Auth"])
+router = APIRouter(prefix="", tags=["Auth"])
 
 class LoginData(BaseModel):
-    username: str
+    identifier: str  # username or email
     password: str
 
-# Replace these with a real password hasher (e.g., passlib/bcrypt)
-def verify_password(plain: str, hashed_or_plain: str) -> bool:
-    # TODO: return pwd_context.verify(plain, hashed_or_plain)
-    return plain == hashed_or_plain
+class LoginResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    user: dict
 
-@router.post("/login")
+@router.post("/login", response_model=LoginResponse)
 async def login(data: LoginData, db: AsyncSession = Depends(get_db)):
-    # Look up the user by username
-    result = await db.execute(select(User).where(User.username == data.username))
+    # Try match either username or email
+    stmt = select(User).where(or_(User.username == data.identifier, User.email == data.identifier))
+    result = await db.execute(stmt)
     user = result.scalar_one_or_none()
 
-    # Fail fast if no user or password mismatch
     if not user or not verify_password(data.password, user.password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid username or password",
+            detail="Invalid username/email or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    # Success: return a minimal, safe payload (no password)
-    # Later, issue a real JWT access_token here.
+    token = create_access_token({"sub": str(user.id), "username": user.username})
     return {
-        "message": "Login successful",
-        "user": {
-            "id": user.id,
-            "username": user.username,
-            "email": user.email,
-        },
+        "access_token": token,
+        "token_type": "bearer",
+        "user": {"id": user.id, "username": user.username, "email": user.email},
     }

@@ -1,21 +1,19 @@
+/* global.css */
+/* Color scheme setup */
 :root {
   color-scheme: light dark;
-
-  /* Base palette (light defaults) */
+  /* Core palette */
   --bg: #f7f8fa;
   --fg: #1f2937;
   --muted: #6b7280;
   --border: #e5e7eb;
-
-  /* Surfaces */
   --panel: #ffffff;
   --panel-2: #fafafa;
-
-  /* Accents */
   --primary: #2980b9;
   --primary-contrast: #ffffff;
   --accent: #4caf50;
   --danger: #d32f2f;
+  --warning: #f59e0b;
 
   /* Inputs */
   --input-bg: #ffffff;
@@ -23,28 +21,35 @@
   --input-border: #e5e7eb;
   --input-focus: #2980b9;
 
-  /* Navbar gradient */
+  /* Navbar */
   --nav-grad-start: #1e5631;
   --nav-grad-end: #4caf50;
 
-  /* Table header */
+  /* Cards and tables */
+  --card-bg: var(--panel);
   --table-header-bg: rgba(0, 0, 0, 0.05);
 
   /* Shadows */
   --shadow-1: 0 2px 8px rgba(0,0,0,0.08);
   --shadow-2: 0 4px 16px rgba(0,0,0,0.12);
+
+  /* Riskometer colors (used by RiskometerBar inline styles too) */
+  --risk-very-low: #2e7d32;
+  --risk-low: #558b2f;
+  --risk-moderate: #f9a825;
+  --risk-mod-high: #fb8c00;
+  --risk-high: #e53935;
+  --risk-very-high: #b71c1c;
 }
 
-/* Dark overrides by body class */
+/* Dark overrides via a class on <body> */
 body.dark {
   --bg: #0b1220;
   --fg: #e5e7eb;
   --muted: #a3acc2;
   --border: #333a48;
-
   --panel: #0d1b2a;
   --panel-2: #101e33;
-
   --primary: #27ae60;
   --primary-contrast: #0b1220;
   --accent: #ffd166;
@@ -58,60 +63,45 @@ body.dark {
   --nav-grad-start: #0d1b2a;
   --nav-grad-end: #1b263b;
 
+  --card-bg: var(--panel);
   --table-header-bg: rgba(255,255,255,0.08);
 }
 
-/* Layout sizing */
+/* Page reset and background image placeholders */
 html, body, #root {
   height: 100%;
   width: 100%;
 }
-html { block-size: 100%; }
+
 body {
   margin: 0;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
   background-color: var(--bg);
   color: var(--fg);
-
-  /* Use root-absolute paths for Vite/CRA public assets */
-  /* Put the files in /public and reference as /filename.ext */
-  background-image: url(/lightmode_BG.png);
-
-  background-size: cover;              /* fill viewport without gaps */
+  background-image: url(/* set light mode bg image path here, e.g. /lightmode_pg.png */);
+  background-size: cover;
   background-repeat: no-repeat;
-  background-position: center center;
-  background-attachment: scroll;       /* avoid mobile fixed issues */
-
-  /* Ensure page always covers full viewport height and grows with content */
-  min-height: 100dvh;
-  transition: background-color .2s ease, color .2s ease, background-image .2s ease;
+  background-position: center;
+  transition: background-color 200ms ease, color 200ms ease, background-image 200ms ease;
 }
 
 body.dark {
-  background-image: url(/darkmode_BG.png);
+  background-image: url(/* set dark mode bg image path here, e.g. /darkmode_pg.png */);
 }
 
-/* Optional generic utilities */
-.u-card {
-  background: var(--panel);
+/* Utility */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+.card {
+  background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: 10px;
   box-shadow: var(--shadow-1);
 }
-.u-input {
-  width: 100%; padding: 10px 12px;
-  border: 1px solid var(--input-border);
-  background: var(--input-bg);
-  color: var(--input-fg);
-  border-radius: 6px;
-  outline: none;
-  transition: border-color .16s, box-shadow .16s, background-color .16s;
-}
-.u-input:focus {
-  border-color: var(--input-focus);
-  box-shadow: 0 0 0 3px color-mix(in oklab, var(--input-focus) 25%, transparent);
-}
-.u-btn {
+.btn {
   appearance: none;
   border: 1px solid var(--primary);
   background: var(--primary);
@@ -122,16 +112,30 @@ body.dark {
   cursor: pointer;
   transition: background-color .2s, color .2s, border-color .2s, box-shadow .2s;
 }
-.u-btn:disabled { opacity: .65; cursor: not-allowed; }
-.u-table {
+.btn:disabled { opacity: 0.65; cursor: not-allowed; }
+.input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
+  color: var(--input-fg);
+  border-radius: 6px;
+  outline: none;
+  transition: border-color .16s, box-shadow .16s, background-color .16s;
+}
+.input:focus {
+  border-color: var(--input-focus);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--input-focus) 25%, transparent);
+}
+.table {
   width: 100%;
   border-collapse: collapse;
 }
-.u-table th, .u-table td {
+.table th, .table td {
   padding: 8px;
   border-bottom: 1px solid var(--border);
 }
-.u-table th {
+.table th {
   background: var(--table-header-bg);
   font-weight: 600;
 }
