@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
+from app.database import create_tables_if_needed
 
 # Routers
 from app.auth import router as auth_router
@@ -8,16 +10,34 @@ from app.fundDetail import router as fund_detail_router
 from app.questionnaire import router as questionnaire_router
 from app.routers.users import router as users_router
 from app.routers.mutualfunds import router as mf_router
+from app.routers.nav_store import router as navs_store_router
 
-
-# Database & Models
-from app.database import engine, Base
-from app import models
+# Ormar database connect/disconnect helpers
+from app.database import connect_to_db, disconnect_from_db
 
 # ---------------------------
-# FastAPI app initialization
+# Lifespan management
 # ---------------------------
-app = FastAPI(title="Mutual Funds API (dev)")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    await connect_to_db()
+    await create_tables_if_needed()  # Add 'await' here
+    print("✅ Database connected and tables created")
+    
+    yield
+    
+    # Shutdown
+    await disconnect_from_db()
+    print("✅ Database disconnected")
+
+# ---------------------------
+# FastAPI app initialization (SINGLE INSTANCE)
+# ---------------------------
+app = FastAPI(
+    title="Mutual Funds API (dev)",
+    lifespan=lifespan
+)
 
 # ---------------------------
 # CORS middleware
@@ -39,6 +59,7 @@ app.include_router(questionnaire_router, prefix="/api/questionnaire", tags=["Que
 app.include_router(users_router, prefix="/api/users", tags=["Users"])
 app.include_router(mf_router, prefix="/api/mutual-funds", tags=["Mutual Funds Database"])
 app.include_router(fund_detail_router, prefix="/api/mutual-funds/risk", tags=["Mutual Funds Risk"])
+app.include_router(navs_store_router, prefix="/api/mutual-funds/navs", tags=["NAVs store"])
 
 # ---------------------------
 # Root endpoint
@@ -47,11 +68,4 @@ app.include_router(fund_detail_router, prefix="/api/mutual-funds/risk", tags=["M
 async def root():
     return {"message": "Hello from FastAPI (dev)"}
 
-# ---------------------------
-# Startup: initialize DB
-# ---------------------------
-@app.on_event("startup")
-async def on_startup():
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-    print("✅ Database tables created")
+# Remove the old @app.on_event handlers - they're now in the lifespan function
